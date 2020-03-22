@@ -1,21 +1,16 @@
-package repository
+package main
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
-	. "github.com/otaviobaldan/spotify-for-all-backend/models"
 	uuid "github.com/satori/go.uuid"
 )
 
 const AWS_REGION = "us-east-1"
 const TABLE_NAME = "spotify-for-all"
-var db *dynamodb.DynamoDB
-
-func init() {
-	db = dynamodb.New(session.New(), aws.NewConfig().WithRegion(AWS_REGION))
-}
+var db = dynamodb.New(session.New(), aws.NewConfig().WithRegion("sa-east-1"))
 
 func CreateUser(user User) (*User, error) {
 	// Generates a new random ID
