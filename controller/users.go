@@ -8,35 +8,35 @@ import (
 	"github.com/otaviobaldan/spotify-for-all-backend/service"
 )
 
-func HandleCreateUser(request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
+func HandleCreateUser(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var user models.User
 
 	if err := json.Unmarshal([]byte(request.Body), &user); err != nil {
-		return responses.BadRequest(err)
+		return responses.BadRequest(err), nil
 	}
 
 	userNew, err := service.CreateUser(user)
 	if err != nil || userNew == nil {
-		return responses.BadRequest(err)
+		return responses.BadRequest(err), nil
 	}
 	response, err := json.Marshal(userNew)
 	if err != nil {
-		return responses.BadRequest(err)
+		return responses.BadRequest(err), nil
 	}
-	return responses.Created(string(response))
+	return responses.Created(string(response)), nil
 }
 
-func HandleGetUsers(_ events.APIGatewayProxyRequest) events.APIGatewayProxyResponse  {
+func HandleGetUsers(_ events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	users, err := service.GetUsers()
 	if err != nil {
-		return responses.BadRequest(err)
+		return responses.BadRequest(err), nil
 	}
 
 	js, err := json.Marshal(users)
 	if err != nil {
-		responses.BadRequest(err)
+		return responses.BadRequest(err), nil
 	}
 
-	return responses.Ok(string(js))
+	return responses.Ok(string(js)), nil
 }
 

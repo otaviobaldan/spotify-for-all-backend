@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-func Router (request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
+func Router (request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	switch request.Path {
 	case "/users":
 		{
@@ -20,8 +20,8 @@ func Router (request events.APIGatewayProxyRequest) events.APIGatewayProxyRespon
 			}
 		}
 	default:
-		return responses.MethodNotAllowed(request.HTTPMethod)
+		return responses.MethodNotAllowed(request.HTTPMethod), nil
 	}
 
-	return responses.MethodNotAllowed(request.HTTPMethod)
+	return responses.MethodNotAllowed(request.HTTPMethod), nil
 }

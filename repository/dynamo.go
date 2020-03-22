@@ -32,7 +32,7 @@ func CreateUser(user User) (*User, error) {
 				S: aws.String(user.Name),
 			},
 			"age": {
-				S: aws.String(string(user.Age)),
+				S: aws.String(user.Age),
 			},
 		},
 	}
